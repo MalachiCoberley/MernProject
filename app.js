@@ -6,15 +6,20 @@ const app = express();
 const users = require("./routes/api/users");
 const tweets = require("./routes/api/tweets");
 const bodyParser = require('body-parser');
+const passport = require('passport');
 
 
-//sets the basic route
-app.get("/", (req, res) => res.send("Hello World"));
+//---ROUTES
 app.use("/api/users", users);
 app.use("/api/tweets", tweets);
-//middleware for body parser
+
+//---MIDDLEWARE
+//body parser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+//passport
+app.use(passport.initialize());
+require('./config/passport')(passport);
 
 //connect to MongoDB
 const db = require('./config/keys').mongoURI;
